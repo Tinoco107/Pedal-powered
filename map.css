@@ -1,0 +1,141 @@
+html,
+body {
+  margin: 0;
+  padding: 5px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  gap: 1em;
+  align-items: baseline;
+  padding: 0 1em;
+  box-sizing: border-box;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header label {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+header label input[type="range"] {
+  width: 200px;
+  margin-top: 0.25em;
+}
+
+header label time,
+header label em {
+  display: block;
+  font-size: 0.9em;
+}
+
+header label em {
+  color: #666;
+  font-style: italic;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  position: relative;
+}
+
+/* SVG overlay for station markers */
+#map svg.overlay {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: none;
+}
+
+/* Use the CSS custom property (set in JS) to mix between two discrete colors */
+#map svg.overlay circle {
+  /* Define colors for departures and arrivals */
+  --color-departures: steelblue;
+  --color-arrivals: darkorange;
+  --color: color-mix(in oklch, var(--color-departures) calc(100% * var(--departure-ratio)), var(--color-arrivals));
+  fill: var(--color);
+  fill-opacity: 0.7; /* Adjust opacity as desired */
+  stroke: white;
+  stroke-width: 1px;
+  pointer-events: auto;
+}
+html,
+body {
+  margin: 0;
+  padding: 5px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header and other layout rules remain unchanged... */
+
+/* Map container styling */
+#map {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Shared color variables applied to both station markers and legend swatches */
+#map svg.overlay circle,
+.legend > div {
+  /* Define the two colors and compute the final color based on the departure ratio.
+     The quantize scale is applied via the custom property --departure-ratio, set inline in JS (or in the legend HTML). */
+  --color-departures: steelblue;
+  --color-arrivals: darkorange;
+  --color: color-mix(
+    in oklch,
+    var(--color-departures) calc(100% * var(--departure-ratio)),
+    var(--color-arrivals)
+  );
+}
+
+/* Station marker styling */
+#map svg.overlay circle {
+  fill: var(--color);
+  fill-opacity: 0.7; /* Adjust opacity as desired */
+  stroke: white;
+  stroke-width: 1px;
+  pointer-events: auto;
+}
+
+/* Legend Styling: using Design 1 (Blocks) */
+.legend {
+  display: flex;
+  gap: 1px;              /* A thin gap to separate blocks */
+  margin-block: 1em;      /* Vertical margin to give space above and below the legend */
+  width: 100%;
+}
+
+.legend > div {
+  flex: 1;                /* Make all legend blocks equally wide */
+  text-align: center;     /* Center text inside each block */
+  padding: 0.5em 1em;     /* Provide more horizontal padding for an even appearance */
+  /* Use the computed custom property to set the background color */
+  background-color: var(--color);
+  color: white;           /* White text for contrast; adjust as needed */
+  font-weight: bold;      /* Emphasize the label */
+}
